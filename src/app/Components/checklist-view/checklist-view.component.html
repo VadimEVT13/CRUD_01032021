@@ -15,45 +15,43 @@
 	</mat-form-field>
 	<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-	  <ng-container matColumnDef="groupHeader">
-		<td colspan="999" mat-cell *matCellDef="let element"> 			
-			<strong>
-				Тут будет наименование оборудования с помощью его ID = {{element.equipment_id}}
-			</strong> 		
-			<button (click)="removeGroup(element.equipment_id)">И кнопка удалить</button>				
-		</td>
-	  </ng-container>
+		<!-- Position Column -->
+		<ng-container matColumnDef="equipment_id">
+			<th mat-header-cell *matHeaderCellDef> equipment_id </th>
+			<td mat-cell *matCellDef="let element"> 
+				<div>
+					{{element.equipment_id}} 
+					<button (click)="removeGroup(element.equipment_id)">Удалить</button>
+				</div>
+			</td>
+		</ng-container>
 
-	  <!-- Position Column -->
-	  <ng-container matColumnDef="id">
-		<th mat-header-cell *matHeaderCellDef> id </th>
-		<td mat-cell *matCellDef="let element"> 
-			{{element.id}} 						
-		</td>
-	  </ng-container>
-
-	  <!-- Name Column -->
-	  <ng-container matColumnDef="requirement">
-		<th mat-header-cell *matHeaderCellDef> requirement </th>
-		<td mat-cell *matCellDef="let element">
-			<mat-form-field floatLabel="never">
-				<input matInput placeholder="requirement" [value]="element.requirement" [(ngModel)]="element.requirement">
-			  </mat-form-field>
-		</td>
-	  </ng-container>
-
-	  <ng-container matColumnDef="UR">
-		<th mat-header-cell *matHeaderCellDef> Действие </th>
-		<td mat-cell *matCellDef="let element">
-			<button (click)="removeRow(element.id)">Удалить</button>
-		</td>
-	  </ng-container>
-		
-	  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-	  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>	  
-	  <tr class="mat-row" *matNoDataRow>
-		<td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-	  </tr>
-	  <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
-	</table>
+		<!-- Position Column -->
+		<ng-container matColumnDef="check_list">
+			<th mat-header-cell *matHeaderCellDef> id+requirement+действие </th>
+			<td mat-cell *matCellDef="let element">
+				<div class="check_list">		
+					<ng-container *ngFor="let item of element.check_list">
+						<table>
+							<tr>
+							  <td>{{item.id}}</td>
+							  <td>
+								<mat-form-field floatLabel="never">
+									<input matInput (onchange)="refresh()" placeholder="item.requirement" [value]="item.requirement" [(ngModel)]="item.requirement">
+							    </mat-form-field>
+							  </td>
+							  <td><button (click)="removeRow(item.id)">Удалить</button></td>
+							</tr>
+						  </table>
+					</ng-container>
+				</div> 
+			</td>
+		</ng-container>
+			
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr class="mat-row" *matNoDataRow>
+			<td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+		</tr>
+  	</table>
 </div>

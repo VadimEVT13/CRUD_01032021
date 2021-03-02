@@ -1,6 +1,6 @@
 import { Input, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgModule }      from '@angular/core';
+import { NgModule, ChangeDetectorRef }      from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 export interface Element_check_list {
@@ -20,21 +20,25 @@ export interface Element {
 })
 export class ChecklistViewComponent implements OnInit {
   
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, 
+    private changeDetectorRefs: ChangeDetectorRef) { }
 
   @Input() data: Element[] = [];
-  transformData: any[] = [];
-  displayedColumns: string[] = ['id', 'requirement', 'UR'];
+  displayedColumns: string[] = ['equipment_id', 'check_list'];
   dataSource = new MatTableDataSource(this.data);
-  
+  checkoutForm = this.formBuilder.group({
+    equipment_id: 0,
+    requirement: ''
+  });
+
   ngOnInit(): void {
 	  this.refresh();
-    this.transformData = this.transform();
-    this.dataSource = new MatTableDataSource(this.transformData);
   }
   
   refresh() {
-	  this.dataSource = new MatTableDataSource(this.transform());
+    this.changeDetectorRefs.detectChanges();
+	  this.dataSource = new MatTableDataSource(this.data);
+    this.changeDetectorRefs.detectChanges();
   }
   
   applyFilter(event: Event) {
@@ -42,26 +46,11 @@ export class ChecklistViewComponent implements OnInit {
 	  this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  transform(): any[] {
-    var newData = [];
-    for(let i = 0; i < this.data.length; i++) {
-      newData.push({equipment_id: this.data[i]['equipment_id'], isGroupBy: true});
-      for(let j = 0; j < this.data[i]['check_list'].length; j++) {
-        newData.push({
-          id: this.data[i]['check_list'][j]['id'],
-          requirement: this.data[i]['check_list'][j]['requirement']
-        });
-      }
-    }
-    return newData;
-  }
-
   isGroup(index : number, item : any): boolean {
     return item.isGroupBy;
   }
 
   removeRow(id: number) {
-    console.log(id);
     for(var i = 0; i < this.data.length; i++) {
 		  for(var j = 0; j < this.data[i]['check_list'].length; j++) {
         if(id == this.data[i]['check_list'][j]['id']) {
@@ -76,10 +65,14 @@ export class ChecklistViewComponent implements OnInit {
   removeGroup(id: number) {
     for(var i = 0; i < this.data.length; i++) {
 		  if(id == this.data[i]['equipment_id']) {
-			this.data.splice(i, 1);
-			this.refresh();
-			break;
+        this.data.splice(i, 1);
+        this.refresh();
+        break;
 		  }		  
 	  }
+  }
+
+  add() {
+
   }
 }
