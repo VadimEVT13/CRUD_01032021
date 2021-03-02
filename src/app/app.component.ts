@@ -17,5 +17,6 @@ export class AppComponent implements OnInit {
   
   onClick() {
 	  console.log(this.equipments);
+	  console.log(this.checklist);
   }
 }

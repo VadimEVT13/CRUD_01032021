@@ -1,0 +1,59 @@
+<div class="container">
+	<h1>Перечень чек-листов</h1>
+</div>
+<!-- <form class="container" [formGroup]="checkoutForm" (ngSubmit)="add()">
+	<div class="form-group">
+		<label for="name">Name: </label>
+		<input id="name" type="text" class="form-control" formControlName="name">
+		<button class="btn btn-primary">Submit</button>
+	</div>
+</form> -->
+<div class="container">
+	<mat-form-field>
+		<mat-label>Filter</mat-label>
+		<input matInput (keyup)="applyFilter($event)" placeholder="Фильтр" #input>
+	</mat-form-field>
+	<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+	  <ng-container matColumnDef="groupHeader">
+		<td colspan="999" mat-cell *matCellDef="let element"> 			
+			<strong>
+				Тут будет наименование оборудования с помощью его ID = {{element.equipment_id}}
+			</strong> 		
+			<button (click)="removeGroup(element.equipment_id)">И кнопка удалить</button>				
+		</td>
+	  </ng-container>
+
+	  <!-- Position Column -->
+	  <ng-container matColumnDef="id">
+		<th mat-header-cell *matHeaderCellDef> id </th>
+		<td mat-cell *matCellDef="let element"> 
+			{{element.id}} 						
+		</td>
+	  </ng-container>
+
+	  <!-- Name Column -->
+	  <ng-container matColumnDef="requirement">
+		<th mat-header-cell *matHeaderCellDef> requirement </th>
+		<td mat-cell *matCellDef="let element">
+			<mat-form-field floatLabel="never">
+				<input matInput placeholder="requirement" [value]="element.requirement" [(ngModel)]="element.requirement">
+			  </mat-form-field>
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="UR">
+		<th mat-header-cell *matHeaderCellDef> Действие </th>
+		<td mat-cell *matCellDef="let element">
+			<button (click)="removeRow(element.id)">Удалить</button>
+		</td>
+	  </ng-container>
+		
+	  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>	  
+	  <tr class="mat-row" *matNoDataRow>
+		<td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+	  </tr>
+	  <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
+	</table>
+</div>

@@ -45,7 +45,6 @@ export class EquipmentsViewComponent implements OnInit {
   
   refresh() {
 	  this.dataSource = new MatTableDataSource(this.data);
-	  console.log(this.data);
   }
 
   add() {

@@ -11,22 +11,24 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
- 
+import { ChecklistViewComponent } from './Components/checklist-view/checklist-view.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     MainComponentComponent,
-    EquipmentsViewComponent
+    EquipmentsViewComponent,
+    ChecklistViewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-	MatTableModule,
-	MatInputModule,
-	MatFormFieldModule,
-	FormsModule,
-	ReactiveFormsModule
+    MatTableModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
