@@ -1,13 +1,23 @@
 <div class="container">
 	<h1>Перечень чек-листов</h1>
 </div>
-<!-- <form class="container" [formGroup]="checkoutForm" (ngSubmit)="add()">
+
+<form class="container" [formGroup]="checkoutForm" (ngSubmit)="add()">
 	<div class="form-group">
-		<label for="name">Name: </label>
-		<input id="name" type="text" class="form-control" formControlName="name">
-		<button class="btn btn-primary">Submit</button>
+		<mat-form-field>
+			<label>Выбор оборудования</label>
+			<mat-select formControlName="equipment_id">
+				<mat-option *ngFor="let element of dataSelect" [value]="element.id">
+					ID: {{element.id}} (оборудование `{{element.name}}`)
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<p>
+		<label for="requirement">Описание чек листа: </label>
+		<input id="requirement" type="text" class="form-control" formControlName="requirement">
+		<button class="btn btn-primary">Добавить</button>
 	</div>
-</form> -->
+</form>
 <div class="container">
 	<mat-form-field>
 		<mat-label>Filter</mat-label>
